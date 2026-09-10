@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'screens/expedicao.dart'; // Importa a tela que criamos antes
+// Importações das futuras telas:
+import 'screens/login.dart';
+import 'screens/expedicao.dart'; 
+// import 'screens/admin.dart';
+// import 'screens/vendas.dart';
+// import 'screens/entregas.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,20 +16,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Expedição Desktop',
-      debugShowCheckedModeBanner: false, // Remove aquela faixinha de "Debug" do canto da tela
-      
-      // Aqui você define a identidade visual global do seu app (como o seu arquivo CSS global)
+      title: 'Sistema Logístico',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
         scaffoldBackgroundColor: Colors.white,
-        
-        // Define fontes ou estilos padrões para o app inteiro se quiser
-        fontFamily: 'Roboto', 
+        fontFamily: 'Roboto',
       ),
       
-      // Define qual será a primeira tela aberta assim que o app carregar
-      home: ExpedicaoScreen(), 
+      // O app agora sempre nasce na tela de login
+      initialRoute: '/login',
+      
+      // Mapeamento global de rotas do aplicativo
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/expedicao': (context) => const ExpedicaoScreen(),
+        
+        // Rotas que criaremos nos próximos passos:
+        // '/admin': (context) => const AdminScreen(),
+        // '/vendas': (context) => const VendasScreen(),
+        // '/entregas': (context) => const EntregasScreen(),
+      },
     );
   }
 }
