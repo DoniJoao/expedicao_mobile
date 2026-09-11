@@ -26,6 +26,7 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
 
   Future<void> buscarPedidosDoBanco() async {
     // Altere para o IP do seu servidor Windows da rede local
+    // Exemplo: 'http://192.168.1.100/expedicao_db/listar_pedidos.php'
     final url = Uri.parse('http://localhost/expedicao_db/listar_pedidos.php');
 
     try {
