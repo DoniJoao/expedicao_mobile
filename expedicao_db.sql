@@ -104,8 +104,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `separado` tinyint(1) DEFAULT '0',
   `volumes_finais` int DEFAULT '0',
   `data_criacao` datetime DEFAULT CURRENT_TIMESTAMP,
-  `coletado` tinyint(1) DEFAULT '0',
-  `volumes` int DEFAULT '0',
+  `coletado` tinyint(1) DEFAULT '0'
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
