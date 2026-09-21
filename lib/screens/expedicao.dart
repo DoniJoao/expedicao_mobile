@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/pedidos.dart';
 import '../widgets/card_pedido.dart';
-import 'coleta.dart'; // Importa a tela de assinaturas de coleta
+import 'coleta.dart';
 
 class ExpedicaoScreen extends StatefulWidget {
   const ExpedicaoScreen({super.key});
@@ -13,8 +13,7 @@ class ExpedicaoScreen extends StatefulWidget {
 }
 
 class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
-  // 1. REMOVIDO O 'VENTOLUFY' DAQUI. A lista começa vazia.
-  List<Pedido> pedidos = []; 
+  List<Pedido> pedidos = [];
   bool carregando = true;
   String? erroMensagem;
 
@@ -25,7 +24,6 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
   }
 
   Future<void> buscarPedidosDoBanco() async {
-    // Altere para o IP do seu servidor Windows da rede local
     final url = Uri.parse('http://localhost/expedicao_db/listar_pedidos.php');
 
     try {
@@ -37,8 +35,9 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
       final response = await http.get(url);
 
       if (response.statusCode == 200) {
-        final List<dynamic> dadosJson = json.decode(utf8.decode(response.bodyBytes));
-        
+        final List<dynamic> dadosJson =
+            json.decode(utf8.decode(response.bodyBytes));
+
         setState(() {
           pedidos = dadosJson.map((json) => Pedido.fromJson(json)).toList();
           carregando = false;
@@ -79,33 +78,35 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
             child: Text(
               'Em separação na expedição (${pedidos.length})',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
+              style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15),
             ),
           ),
 
-        // BOTÃO DE ASSINATURAS ADICIONADO AQUI:
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
             child: ElevatedButton.icon(
               onPressed: () {
-                // Abre a tela que gerencia/lista as assinaturas de coleta
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AssinaturasScreen(), // Sua tela de destino
+                    builder: (context) => const AssinaturasScreen(),
                   ),
                 );
               },
               icon: const Icon(Icons.draw, color: Colors.white),
               label: const Text(
                 'Ir para Assinaturas de Coleta',
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal.shade700, // Tom de verde combinando
-                minimumSize: const Size(double.infinity, 48), // Ocupa toda a largura com altura confortável
+                backgroundColor: Colors.teal.shade700,
+                minimumSize: const Size(double.infinity, 48),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8), // Cantos levemente arredondados
+                  borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
@@ -132,7 +133,9 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
             Icon(Icons.error_outline, color: Colors.red, size: 40),
             SizedBox(height: 8),
             Text(erroMensagem!, style: TextStyle(color: Colors.red)),
-            TextButton(onPressed: buscarPedidosDoBanco, child: Text('Tentar Novamente'))
+            TextButton(
+                onPressed: buscarPedidosDoBanco,
+                child: Text('Tentar Novamente'))
           ],
         ),
       );
@@ -152,7 +155,10 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
       padding: EdgeInsets.all(10),
       itemCount: pedidos.length,
       itemBuilder: (context, index) {
-        return CardPedido(pedido: pedidos[index]);
+        return CardPedido(
+          pedido: pedidos[index],
+          onPedidoSalvo: buscarPedidosDoBanco,
+        );
       },
     );
   }

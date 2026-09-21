@@ -5,8 +5,7 @@ class Pedido {
   final String transportadora;
   final String data;
   final int volumesFinais;
-  final double valor; // <- Adicionado para corrigir a linha 51
-  final String? observacao; // <- Adicionado para corrigir a linha 99
+  final String? observacao;
   final List<ItemPedido> itens;
 
   Pedido({
@@ -16,7 +15,6 @@ class Pedido {
     required this.transportadora,
     required this.data,
     required this.volumesFinais,
-    required this.valor,
     this.observacao,
     required this.itens,
   });
@@ -28,14 +26,9 @@ class Pedido {
       cliente: json['cliente'] ?? 'Cliente não informado',
       transportadora: json['transportadora'] ?? 'Padrão',
       data: json['data_criacao'] ?? '',
-      volumesFinais: json['volumes_finais'] is int 
-          ? json['volumes_finais'] 
+      volumesFinais: json['volumes_finais'] is int
+          ? json['volumes_finais']
           : int.tryParse(json['volumes_finais'].toString()) ?? 0,
-      // Transforma o valor do banco em decimal (double). Se vier vazio, vira 0.0
-      valor: json['valor'] != null 
-          ? double.tryParse(json['valor'].toString()) ?? 0.0 
-          : 0.0,
-      // Puxa a observação do banco
       observacao: json['observacao'],
       itens: json['itens'] != null
           ? (json['itens'] as List).map((i) => ItemPedido.fromJson(i)).toList()
@@ -46,39 +39,58 @@ class Pedido {
 
 class ItemPedido {
   final String codigo;
-  final String descricao; 
-  final String um;
-  final int qtd; 
-  final List<String> lotesDisponiveis; 
-  final String? loteSelecionado; 
+  final String descricao;
+  final int qtd;
+  final String? lote;         // lote original sugerido pelo pedido (opcional)
   final String? localizacao;
+  final List<LoteDisponivel> lotesDisponiveis;
 
   ItemPedido({
     required this.codigo,
     required this.descricao,
-    required this.um,
     required this.qtd,
-    required this.lotesDisponiveis,
-    this.loteSelecionado,
+    this.lote,
     this.localizacao,
+    required this.lotesDisponiveis,
   });
 
   factory ItemPedido.fromJson(Map<String, dynamic> json) {
-    List<String> lotes = [];
-    if (json['lote'] != null && json['lote'].toString().isNotEmpty) {
-      lotes.add(json['lote'].toString());
+    // Lê a lista nova de lotes disponíveis (com saldo)
+    List<LoteDisponivel> lotes = [];
+    if (json['lotes_disponiveis'] is List) {
+      lotes = (json['lotes_disponiveis'] as List)
+          .map((l) => LoteDisponivel.fromJson(l))
+          .toList();
+    } else if (json['lote'] != null && json['lote'].toString().isNotEmpty) {
+      // Fallback: se por algum motivo só vier o lote antigo, cria 1 lote sem saldo
+      lotes = [LoteDisponivel(lote: json['lote'].toString(), saldo: 0)];
     }
 
     return ItemPedido(
       codigo: json['codigo'] ?? '',
       descricao: json['nome'] ?? 'Produto sem nome',
-      um: json['um'] ?? 'UN',
-      qtd: json['qtd_solicitada'] is int 
-          ? json['qtd_solicitada'] 
+      qtd: json['qtd_solicitada'] is int
+          ? json['qtd_solicitada']
           : int.tryParse(json['qtd_solicitada'].toString()) ?? 0,
-      lotesDisponiveis: lotes,
-      loteSelecionado: json['lote'],
+      lote: json['lote'],
       localizacao: json['localizacao'],
+      lotesDisponiveis: lotes,
+    );
+  }
+}
+
+class LoteDisponivel {
+  final String lote;
+  final int saldo;
+
+  LoteDisponivel({required this.lote, required this.saldo});
+
+  factory LoteDisponivel.fromJson(Map<String, dynamic> json) {
+    return LoteDisponivel(
+      lote: json['lote']?.toString() ?? '',
+      saldo: json['saldo'] is int
+          ? json['saldo']
+          : int.tryParse(json['saldo']?.toString() ?? '0') ?? 0,
     );
   }
 }
