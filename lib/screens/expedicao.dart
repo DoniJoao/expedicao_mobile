@@ -92,7 +92,7 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AssinaturasScreen(),
+                    builder: (context) => const ColetaScreen(),
                   ),
                 );
               },

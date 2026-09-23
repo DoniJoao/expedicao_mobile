@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 // Importações das futuras telas:
 import 'screens/login.dart';
 import 'screens/expedicao.dart'; 
-// import 'screens/admin.dart';
-// import 'screens/vendas.dart';
+import 'screens/coleta.dart';
 // import 'screens/entregas.dart';
 
 void main() {
@@ -31,6 +30,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/expedicao': (context) => const ExpedicaoScreen(),
+        '/coletas': (context) => const ColetaScreen()
         
         // Rotas que criaremos nos próximos passos:
         // '/admin': (context) => const AdminScreen(),
