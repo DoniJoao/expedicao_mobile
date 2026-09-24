@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/pedidos.dart';
 import '../screens/pedido.dart';
+import '../screens/registrar_coleta.dart';
 
 class CardPedido extends StatelessWidget {
   final Pedido pedido;
@@ -159,13 +160,16 @@ class CardPedido extends StatelessWidget {
       onPedidoSalvo?.call();
     }
   }
-
-  void _registrarColeta(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Tela de registro de coleta em construção.'),
-        backgroundColor: Colors.orange,
+  Future<void> _registrarColeta(BuildContext context) async {
+    final resultado = await Navigator.of(context).push<bool>(
+      MaterialPageRoute(
+        builder: (context) => RegistrarColetaScreen(pedido: pedido),
       ),
     );
+
+    // Se a tela de registro devolveu true, avisa a lista pra recarregar
+    if (resultado == true) {
+      onPedidoSalvo?.call();
+    }
   }
 }

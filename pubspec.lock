@@ -188,7 +188,7 @@ packages:
     source: hosted
     version: "7.0.2"
   signature:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: signature
       sha256: e6b6a3629f5faa95055a24eba470abe3133d6fafecb5baedd1f7dbda78cdfb4c
