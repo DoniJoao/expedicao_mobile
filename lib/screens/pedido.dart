@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../config.dart';
 import '../models/pedidos.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -106,8 +107,7 @@ class _PedidoScreenState extends State<PedidoScreen> {
     );
 
     try {
-      final url = Uri.parse(
-          'http://localhost/expedicao_db/confirmar_pedidos.php');
+      final url = ApiConfig.endpoint('confirmar_pedidos.php');
 
       final payload = {
         "pedido_id": widget.pedido.id,

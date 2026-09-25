@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
-
+import '../config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -96,7 +96,7 @@ class _RegistrarColetaScreenState extends State<RegistrarColetaScreen> {
       };
 
       // 4. Envia pro PHP
-      final url = Uri.parse('http://localhost/expedicao_db/registrar_coleta.php');
+      final url = ApiConfig.endpoint('registrar_coleta.php');
 
       final response = await http
           .post(

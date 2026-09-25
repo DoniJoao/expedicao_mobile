@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-// Importações das futuras telas:
 import 'screens/login.dart';
-import 'screens/expedicao.dart'; 
+import 'screens/expedicao.dart';
 import 'screens/coleta.dart';
-// import 'screens/entregas.dart';
+import 'screens/placeholder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,24 +17,19 @@ class MyApp extends StatelessWidget {
       title: 'Sistema Logístico',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.teal),
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Roboto',
+        useMaterial3: true,
       ),
-      
-      // O app agora sempre nasce na tela de login
       initialRoute: '/login',
-      
-      // Mapeamento global de rotas do aplicativo
       routes: {
-        '/login': (context) => const LoginScreen(),
+        '/login':     (context) => const LoginScreen(),
         '/expedicao': (context) => const ExpedicaoScreen(),
-        '/coletas': (context) => const ColetaScreen()
-        
-        // Rotas que criaremos nos próximos passos:
-        // '/admin': (context) => const AdminScreen(),
-        // '/vendas': (context) => const VendasScreen(),
-        // '/entregas': (context) => const EntregasScreen(),
+        '/coletas':   (context) => const ColetaScreen(),
+        '/admin':     (context) => const PlaceholderScreen(titulo: 'Painel Admin'),
+        '/vendas':    (context) => const PlaceholderScreen(titulo: 'Vendas'),
+        '/entregas':  (context) => const PlaceholderScreen(titulo: 'Entregas'),
       },
     );
   }

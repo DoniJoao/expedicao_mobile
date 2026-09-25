@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
+import '../config.dart';
 import '../models/pedidos.dart';
 import '../models/coleta.dart';
 import '../widgets/card_pedido.dart';
@@ -79,7 +79,7 @@ class _AbaAguardandoState extends State<_AbaAguardando> {
   }
 
   Future<void> buscar() async {
-    final url = Uri.parse('http://localhost/expedicao_db/listar_coletas.php');
+    final url = ApiConfig.endpoint('listar_coletas.php');
 
     try {
       setState(() {
@@ -177,8 +177,7 @@ class _AbaRealizadasState extends State<_AbaRealizadas> {
   }
 
   Future<void> buscar() async {
-    final url = Uri.parse(
-        'http://localhost/expedicao_db/listar_coletas_feitas.php');
+    final url = ApiConfig.endpoint('listar_coletas_feitas.php');
 
     try {
       setState(() {
@@ -320,8 +319,7 @@ class _AbaRealizadasState extends State<_AbaRealizadas> {
   }
 
   Future<String?> _buscarAssinatura(int coletaId) async {
-    final url = Uri.parse(
-        'http://localhost/expedicao_db/obter_assinatura.php?id=$coletaId');
+    final url = ApiConfig.endpoint('obter_assinatura.php?id=$coletaId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../config.dart';
 import '../models/pedidos.dart';
 import '../widgets/card_pedido.dart';
 import 'coleta.dart';
@@ -24,7 +25,7 @@ class _ExpedicaoScreenState extends State<ExpedicaoScreen> {
   }
 
   Future<void> buscarPedidosDoBanco() async {
-    final url = Uri.parse('http://localhost/expedicao_db/listar_pedidos.php');
+    final url = ApiConfig.endpoint('listar_pedidos.php');
 
     try {
       setState(() {
